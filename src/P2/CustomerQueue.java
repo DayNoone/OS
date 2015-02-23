@@ -28,12 +28,12 @@ public class CustomerQueue {
             seats.add(null);
         }
 
-        for(int i = 0; i<7; i++){
-            addCustomer(new Customer());
-        }
+        //for(int i = 0; i<7; i++){
+        //    addCustomer(new Customer());
+        //}
 	}
 
-    public void addCustomer(Customer customer){
+    public synchronized void addCustomer(Customer customer){
         if (queue.size() < queueLength){
             queue.add(customer);
             for(int i = 0; i < queueLength; i++){
@@ -46,12 +46,15 @@ public class CustomerQueue {
         }
     }
 
-    public Customer removeCustomer(){
-        Customer c = queue.remove(0);
-        int index = seats.indexOf(c);
-        seats.set(index, null);
-        gui.emptyLoungeChair(index);
-        return c;
+    public synchronized Customer removeCustomer(){
+        if (!queue.isEmpty()){
+            Customer c = queue.remove(0);
+            int index = seats.indexOf(c);
+            seats.set(index, null);
+            gui.emptyLoungeChair(index);
+            return c;
+        }
+        return null;
     }
 
 	// Add more methods as needed
