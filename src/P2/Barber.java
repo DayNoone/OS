@@ -13,6 +13,7 @@ public class Barber extends Thread{
     private CustomerQueue queue;
     private int pos;
     private Gui gui;
+    private Boolean running;
 	public Barber(CustomerQueue queue, Gui gui, int pos) {
         this.queue = queue;
         this.pos = pos;
@@ -20,7 +21,7 @@ public class Barber extends Thread{
 	}
 
     public void run(){
-        while(true){
+        while(running){
             try {
                 gui.barberIsSleeping(pos);
                 //this.sleep(Constants.MIN_BARBER_SLEEP + (int) (Math.random()*(Constants.MAX_BARBER_SLEEP- Constants.MIN_BARBER_SLEEP+1)));
@@ -53,16 +54,14 @@ public class Barber extends Thread{
 	 */
 	public void startThread() {
 		this.start();
-		// Incomplete
+        running = true;
 	}
 
 	/**
 	 * Stops the barber thread.
 	 */
 	public void stopThread() {
-		// Incomplete
+        running = false;
 	}
-
-	// Add more methods as needed
 }
 

@@ -12,13 +12,14 @@ public class Doorman extends Thread{
 
     private CustomerQueue queue;
     private Gui gui;
+    private Boolean running;
 	public Doorman(CustomerQueue queue, Gui gui) {
         this.queue = queue;
         this.gui = gui;
 	}
 
     public void run(){
-        while(true){
+        while(running){
             try {
                 //this.sleep(Constants.MIN_DOORMAN_SLEEP + (int) (Math.random()*(Constants.MAX_DOORMAN_SLEEP- Constants.MIN_DOORMAN_SLEEP+1)));
                 this.sleep(Globals.doormanSleep);
@@ -36,15 +37,13 @@ public class Doorman extends Thread{
 	 */
 	public void startThread() {
         this.start();
-		// Incomplete
+        running = true;
 	}
 
 	/**
 	 * Stops the doorman thread.
 	 */
 	public void stopThread() {
-		// Incomplete
+		running = false;
 	}
-
-	// Add more methods as needed
 }
