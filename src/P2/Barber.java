@@ -22,12 +22,12 @@ public class Barber extends Thread{
     public void run(){
         while(true){
             try {
-                gui.barberIsSleeping(pos);
-                //this.sleep(Constants.MIN_BARBER_SLEEP + (int) (Math.random()*(Constants.MAX_BARBER_SLEEP- Constants.MIN_BARBER_SLEEP+1)));
-                this.sleep(Globals.barberSleep);
-                gui.println("Barber sleep time: " + Globals.barberSleep);
-                gui.barberIsAwake(pos);
-
+                synchronized (queue) {
+                    while (queue.getLength() == 0) {
+                        queue.wait();
+                    }
+                    queue.notifyAll();
+                }
                 Customer c = queue.removeCustomer();
 
                 if (c != null){
@@ -39,6 +39,11 @@ public class Barber extends Thread{
                     gui.emptyBarberChair(pos);
                 }
 
+                //this.sleep(Constants.MIN_BARBER_SLEEP + (int) (Math.random()*(Constants.MAX_BARBER_SLEEP- Constants.MIN_BARBER_SLEEP+1)));
+                gui.barberIsSleeping(pos);
+                this.sleep(Globals.barberSleep);
+                gui.println("Barber sleep time: " + Globals.barberSleep);
+                gui.barberIsAwake(pos);
 
             } catch (InterruptedException e) {
                 e.printStackTrace();

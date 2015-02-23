@@ -17,6 +17,7 @@ public class CustomerQueue {
     private Gui gui;
     private int queueLength;
     private ArrayList<Customer> seats;
+    private int length;
 
     public CustomerQueue(int queueLength, Gui gui) {
 		this.gui = gui;
@@ -57,5 +58,9 @@ public class CustomerQueue {
         return null;
     }
 
-	// Add more methods as needed
+    public int getLength() {
+        return queue.size();
+    }
+
+    // Add more methods as needed
 }
